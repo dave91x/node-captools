@@ -1,0 +1,27 @@
+{
+  "name": "captools",
+  "version": "0.1.0",
+  "description": "Node.js package for working with Captricity API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dave91x/node-captools.git"
+  },
+  "keywords": [
+    "Captricity",
+    "captools"
+  ],
+  "author": "Dave S <daves@captricity.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/dave91x/node-captools/issues"
+  },
+  "homepage": "https://github.com/dave91x/node-captools",
+  "dependencies": {
+  	"request": "~2.48.0"
+  },
+  "private": true
+}
