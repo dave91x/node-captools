@@ -3,7 +3,7 @@ var chai     = require('chai');
 var expect   = chai.expect;
 
 // describe a suite (or group) of tests
-describe('basic suite of tests', function() {
+describe('captools test suite 1', function() {
 	
 	// The tests have an English description...
 	it('has 2 equal to or greater than 0', function() {
