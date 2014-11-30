@@ -1,23 +1,25 @@
 // First, we require 'expect' from Chai.
 var chai       = require('chai'),
     should     = chai.should(),
-	captools   = require('../index.js'),
-	connect    = captools.connect;
-	
+	captools   = require('../index.js');
 
 // describe a suite (or group) of tests
 describe('captools test suite 1', function() {
 	
-	// The tests have an English description...
-	// it('has 2 equal to or greater than 0', function() {
-	// 	// and a code assertion.
-	// 	expect(2).to.be.above(0);
-	// });
+	beforeEach(function() {
+		captools.connect(process.env.CAPTRICITY_API_TOKEN);
+	});
 	
-	it('connects with api token', function() {
-		captools.apiToken.should.equal('');
-		connect('myApiToken');
-		captools.apiToken.should.equal('myApiToken');
+	it('uses connect to establish api token', function() {
+		//console.log(captools.apiToken);
+		captools['headers']['Captricity-API-Token'].should.not.equal('');
+	});
+	
+	it('lists current batches', function() {
+		//console.log(captools.headers);
+		batches = captools.listBatches();
+		console.log(batches);
+		batches.should.have.length(1);
 	});
 });
 
