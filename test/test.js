@@ -17,7 +17,9 @@ describe('captools test suite 1', function() {
 	
 	it('lists current batches', function() {
 		//console.log(captools.headers);
+		console.log("in the test before defining batches")
 		batches = captools.listBatches();
+		console.log("in the test before logging batches");
 		console.log(batches);
 		batches.should.have.length(1);
 	});
