@@ -40,11 +40,20 @@ var captools = {
      * @param   {}
      * @return  []
 	 */
-	listBatches: function() {
-		this.apiGetCall('https://shreddr.captricity.com/api/v1/batch/', function(body) {
-            //console.log(body);
-            return body;
-        })
+	listBatches: function(callback_function) {
+        var options = {
+            url: 'https://shreddr.captricity.com/api/v1/batch/',
+            method: 'GET',
+            headers: this.headers
+        };
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                callback_function(body);
+            } else {
+                console.log('Status Code Returned:', response.statusCode);
+                console.log('Error:', error);
+            }
+        });
 	},
 
     /**
@@ -77,12 +86,14 @@ var runner = captools.connect(process.env.CAPTRICITY_API_TOKEN);
 runner.readBatch(27962, function(response) {
     console.log(response);
 });
-
 //runner.readBatch(29417);
-//var batchList = runner.listBatches();
-//console.log(batchList);
-//for (var i = 0, l = batchList.length; i < l; i++) {
-//    console.log(batchList[i].name);
-//    console.log(batchList[i]['submitted']);
-//    console.log("===========================");
-//}
+
+console.log("");
+
+runner.listBatches(function(response) {
+    for (var i = 0, l = response.length; i < l; i++) {
+        console.log(response[i].name);
+        console.log(response[i]['submitted']);
+        console.log("===========================");
+    }
+});
