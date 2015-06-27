@@ -22,11 +22,11 @@
   },
   "homepage": "https://github.com/dave91x/node-captools",
   "dependencies": {
-    "request": ">=2.48.0"
+    "request": ">=2.58.0"
   },
   "devDependencies": {
-    "chai": "^1.10.0",
-    "mocha": "^2.0.1"
+    "chai": ">=3.0.0",
+    "mocha": ">=2.2.5"
   },
   "private": true
 }

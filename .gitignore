@@ -29,3 +29,4 @@ node_modules
 
 # other environmental hazards
 .DS_Store
+.idea
