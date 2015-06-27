@@ -48,6 +48,7 @@ var captools = {
         };
         request(options, function(error, response, body) {
             if (!error && response.statusCode == 200) {
+                console.log("in the listBatches request call...")
                 callback_function(body);
             } else {
                 console.log('Status Code Returned:', response.statusCode);
@@ -67,6 +68,7 @@ var captools = {
         };
         request(options, function(error, response, body) {
             if (!error && response.statusCode == 200) {
+                console.log("in the readBatch request call...");
                 callback_function(body);
             } else {
                 console.log('Status Code Returned:', response.statusCode);
@@ -82,18 +84,25 @@ if (typeof module !== 'undefined') {
 
 var runner = captools.connect(process.env.CAPTRICITY_API_TOKEN);
 //console.log(runner.headers['Captricity-API-Token']);
+console.log("finished creating Captricity client...");
 
 runner.readBatch(27962, function(response) {
-    console.log(response);
+    console.log("in the main thread, callback function provided to readBatch call");
+    //console.log(response);
+    for (var name in response) {
+        console.log(name);
+    }
 });
 //runner.readBatch(29417);
 
-console.log("");
-
-runner.listBatches(function(response) {
-    for (var i = 0, l = response.length; i < l; i++) {
-        console.log(response[i].name);
-        console.log(response[i]['submitted']);
-        console.log("===========================");
-    }
-});
+//console.log("");
+//
+//runner.listBatches(function(response) {
+//    console.log("in the main thread, callback function provided to listBatches call");
+//    console.log(response);
+//    //for (var i = 0, l = response.length; i < l; i++) {
+//    //    console.log(response[i]['name']);
+//    //    console.log(response[i]['submitted']);
+//    //    console.log("===========================");
+//    //}
+//});
