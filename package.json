@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/dave91x/node-captools",
   "dependencies": {
-    "request": ">=2.58.0"
+    "request": ">=2.58.0",
+    "json": ">=9.0.3"
   },
   "devDependencies": {
     "chai": ">=3.0.0",

@@ -49,7 +49,7 @@ var captools = {
         request(options, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("in the listBatches request call...")
-                callback_function(body);
+                callback_function(JSON.parse(body));
             } else {
                 console.log('Status Code Returned:', response.statusCode);
                 console.log('Error:', error);
@@ -69,7 +69,7 @@ var captools = {
         request(options, function(error, response, body) {
             if (!error && response.statusCode == 200) {
                 console.log("in the readBatch request call...");
-                callback_function(body);
+                callback_function(JSON.parse(body));
             } else {
                 console.log('Status Code Returned:', response.statusCode);
                 console.log('Error:', error);
@@ -89,20 +89,21 @@ console.log("finished creating Captricity client...");
 runner.readBatch(27962, function(response) {
     console.log("in the main thread, callback function provided to readBatch call");
     //console.log(response);
-    for (var name in response) {
-        console.log(name);
-    }
+    console.log(response['name']);
+    //for (var name in response) {
+    //    console.log(response[name] );
+    //}
 });
-//runner.readBatch(29417);
+runner.readBatch(29417);
 
 //console.log("");
-//
-//runner.listBatches(function(response) {
-//    console.log("in the main thread, callback function provided to listBatches call");
-//    console.log(response);
-//    //for (var i = 0, l = response.length; i < l; i++) {
-//    //    console.log(response[i]['name']);
-//    //    console.log(response[i]['submitted']);
-//    //    console.log("===========================");
-//    //}
-//});
+
+runner.listBatches(function(response) {
+    console.log("in the main thread, callback function provided to listBatches call");
+    //console.log(response);
+    for (var i = 0, l = response.length; i < l; i++) {
+        console.log(response[i]['name']);
+        console.log(response[i]['submitted']);
+        console.log("===========================");
+    }
+});
