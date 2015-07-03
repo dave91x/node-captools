@@ -86,15 +86,17 @@ var runner = captools.connect(process.env.CAPTRICITY_API_TOKEN);
 //console.log(runner.headers['Captricity-API-Token']);
 console.log("finished creating Captricity client...");
 
-runner.readBatch(27962, function(response) {
-    console.log("in the main thread, callback function provided to readBatch call");
-    //console.log(response);
-    console.log(response['name']);
-    //for (var name in response) {
-    //    console.log(response[name] );
-    //}
+var names = [27962, 29417];
+names.forEach(function(value) {
+    runner.readBatch(value, function(response) {
+        console.log("in the main thread, callback function provided to readBatch call");
+        //console.log(response);
+        console.log(response['name']);
+        //for (var name in response) {
+        //    console.log(response[name] );
+        //}
+    })
 });
-runner.readBatch(29417);
 
 //console.log("");
 
