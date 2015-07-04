@@ -75,7 +75,47 @@ var captools = {
                 console.log('Error:', error);
             }
         });
-    }
+    },
+
+    /**
+     * Create a new Batch
+     */
+    createBatch: function(callback_function) {
+        var options = {
+            url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
+            method: 'POST',
+            headers: this.headers
+        };
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("in the createBatch request call...");
+                callback_function(JSON.parse(body));
+            } else {
+                console.log('Status Code Returned:', response.statusCode);
+                console.log('Error:', error);
+            }
+        });
+    },
+
+    /**
+     * Add file to Batch
+     */
+    addFileToBatch: function(callback_function) {
+        var options = {
+            url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
+            method: 'POST',
+            headers: this.headers
+        };
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("in the createBatch request call...");
+                callback_function(JSON.parse(body));
+            } else {
+                console.log('Status Code Returned:', response.statusCode);
+                console.log('Error:', error);
+            }
+        });
+    },
 };
 
 if (typeof module !== 'undefined') {
@@ -97,8 +137,6 @@ names.forEach(function(value) {
         //}
     })
 });
-
-//console.log("");
 
 runner.listBatches(function(response) {
     console.log("in the main thread, callback function provided to listBatches call");
