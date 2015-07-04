@@ -80,10 +80,19 @@ var captools = {
     /**
      * Create a new Batch
      */
-    createBatch: function(callback_function) {
+    createBatch: function(name, sorting_enabled, is_sorting_only, documents, callback_function) {
+        name = typeof name !== 'undefined' ? name : "Test Batch";
+        sorting_enabled = typeof sorting_enabled !== 'undefined' ? sorting_enabled : true;
+        is_sorting_only = typeof is_sorting_only !== 'undefined' ? is_sorting_only : false;
+        documents = typeof documents === 'Array' ? documents : [];
+        var form = {name: name, sorting_enabled: sorting_enabled, is_sorting_only: is_sorting_only};
+        if (documents.length > 0) {
+            form.documents = documents;
+        }
         var options = {
-            url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
+            url: 'https://shreddr.captricity.com/api/v1/batch/',
             method: 'POST',
+            form: form,
             headers: this.headers
         };
         request(options, function(error, response, body) {
@@ -98,9 +107,29 @@ var captools = {
     },
 
     /**
+     * Delete a Batch
+     */
+    deleteBatch: function(batchId, callback_function) {
+        var options = {
+            url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
+            method: 'DELETE',
+            headers: this.headers
+        };
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("in the deleteBatch request call...");
+                callback_function(JSON.parse(body));
+            } else {
+                console.log('Status Code Returned:', response.statusCode);
+                console.log('Error:', error);
+            }
+        });
+    },
+
+    /**
      * Add file to Batch
      */
-    addFileToBatch: function(callback_function) {
+    addFileToBatch: function(batchId, callback_function) {
         var options = {
             url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
             method: 'POST',
@@ -123,18 +152,13 @@ if (typeof module !== 'undefined') {
 }
 
 var runner = captools.connect(process.env.CAPTRICITY_API_TOKEN);
-//console.log(runner.headers['Captricity-API-Token']);
 console.log("finished creating Captricity client...");
 
 var names = [27962, 29417];
 names.forEach(function(value) {
     runner.readBatch(value, function(response) {
         console.log("in the main thread, callback function provided to readBatch call");
-        //console.log(response);
         console.log(response['name']);
-        //for (var name in response) {
-        //    console.log(response[name] );
-        //}
     })
 });
 
@@ -146,4 +170,8 @@ runner.listBatches(function(response) {
         console.log(response[i]['submitted']);
         console.log("===========================");
     }
+});
+
+runner.createBatch("Node Test 1", true, false, null, function(response) {
+    console.log("in the main thread, callback function provided to createBatch call");
 });
