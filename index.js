@@ -19,21 +19,21 @@ var captools = {
 	},
 
     /**
-     *
+     * Helper function to streamline redundant code
      * @param url
      * @param callback_function
      */
-    //apiGetCall: function(url, callback_function) {
-    //    request({url: url, headers: this.headers}, function(error, response, body) {
-    //        // Check for error
-    //        if (!error && response.statusCode == 200) {
-    //            callback_function(body)
-    //        } else {
-    //            console.log('Status Code Returned:', response.statusCode);
-    //            console.log('Error:', error);
-    //        }
-    //    })
-    //},
+    sendRequest: function(options, callback_function) {
+        request(options, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                console.log("in sendRequest function")
+                callback_function(body)
+            } else {
+                console.log('Status Code Returned:', response.statusCode);
+                console.log('Error:', error);
+            }
+        })
+    },
 
 	/**
      * Get information on all Batches owned by calling user
@@ -66,19 +66,21 @@ var captools = {
             method: 'GET',
             headers: this.headers
         };
-        request(options, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                console.log("in the readBatch request call...");
-                callback_function(JSON.parse(body));
-            } else {
-                console.log('Status Code Returned:', response.statusCode);
-                console.log('Error:', error);
-            }
-        });
+        console.log("in the readBatch request call...");
+        this.sendRequest(options, callback_function);
+        //request(options, function(error, response, body) {
+        //    if (!error && response.statusCode == 200) {
+        //        console.log("in the readBatch request call...");
+        //        callback_function(JSON.parse(body));
+        //    } else {
+        //        console.log('Status Code Returned:', response.statusCode);
+        //        console.log('Error:', error);
+        //    }
+        //});
     },
 
     /**
-     * Create a new Batch
+     * Create a new Batch, specifying setup parameters
      */
     createBatch: function(name, sorting_enabled, is_sorting_only, documents, callback_function) {
         name = typeof name !== 'undefined' ? name : "Test Batch";
@@ -107,7 +109,7 @@ var captools = {
     },
 
     /**
-     * Delete a Batch
+     * Delete a Batch specified by batchId
      */
     deleteBatch: function(batchId, callback_function) {
         var options = {
@@ -127,9 +129,9 @@ var captools = {
     },
 
     /**
-     * Add file to Batch
+     * Add file at given filePath to batch specified by batchId
      */
-    addFileToBatch: function(batchId, callback_function) {
+    addFileToBatch: function(batchId, filePath, callback_function) {
         var options = {
             url: 'https://shreddr.captricity.com/api/v1/batch/' + batchId,
             method: 'POST',
@@ -172,6 +174,6 @@ runner.listBatches(function(response) {
     }
 });
 
-runner.createBatch("Node Test 1", true, false, null, function(response) {
-    console.log("in the main thread, callback function provided to createBatch call");
-});
+//runner.createBatch("Node Test 1", true, false, null, function(response) {
+//    console.log("in the main thread, callback function provided to createBatch call");
+//});
